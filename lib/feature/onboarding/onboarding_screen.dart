@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizz/feature/onboarding/content_modal.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -8,24 +9,21 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+  int currentIndex = 0;
+  PageController? _controller;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        children: const [Intro(), Intro2(), Intro3()],
-      ),
-    );
+  void initState() {
+    _controller = PageController(initialPage: 0);
+    super.initState();
   }
-}
-
-class Intro extends StatefulWidget {
-  const Intro({super.key});
 
   @override
-  State<Intro> createState() => _IntroState();
-}
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
-class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,259 +32,111 @@ class _IntroState extends State<Intro> {
         elevation: 0,
         actions: [
           TextButton(
-              onPressed: (() {}),
-              child: const Text("Skip",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff78746D))))
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil("/home", (route) => false);
+              },
+              child: const Text(
+                "Skip",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff78746D)),
+              ))
         ],
       ),
-      //bottomNavigationBar: Image.asset("assets/images/homebar.png"),
-      body: Column(
-        children: [
-          const SizedBox(height: 115),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Image.asset("assets/images/i1.png"),
-                const SizedBox(height: 16),
-                const Text(
-                  "Learn anytime and anywhere",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff3C3A36)),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  "Quarantine is the perfect time to spend your day learning something new, from anywhere!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff78746D)),
-                ),
-                const SizedBox(height: 16),
-                Image.asset("assets/images/pa1.png"),
-                const SizedBox(height: 70),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
-                        backgroundColor: const Color(0xffE3562A),
+      body: Column(children: [
+        const SizedBox(height: 115),
+        Expanded(
+            child: PageView.builder(
+                controller: _controller,
+                itemCount: content.length,
+                onPageChanged: (int index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+                itemBuilder: (_, i) {
+                  return Column(
+                    children: [
+                      Image.asset(content[i].image),
+                      const SizedBox(height: 16),
+                      Text(
+                        content[i].title,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff3C3A36)),
                       ),
-                      onPressed: (() {
-                        Navigator.of(context).pushNamed("/onBoarding2");
-                        // setState(() {
-                        //   widget.press.call();
-                        // });
-                      }),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Next",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class Intro2 extends StatefulWidget {
-  const Intro2({super.key});
-
-  @override
-  State<Intro2> createState() => _Intro2State();
-}
-
-class _Intro2State extends State<Intro2> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          TextButton(
-              onPressed: (() {}),
-              child: const Text("Skip",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff78746D))))
-        ],
-      ),
-      //bottomNavigationBar: Image.asset("assets/images/homebar.png"),
-      body: Column(
-        children: [
-          const SizedBox(height: 126),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Image.asset("assets/images/i2.png"),
-                const SizedBox(height: 16),
-                const Text(
-                  "Find a course\n"
-                  "       for you",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff3C3A36)),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  "Quarantine is the perfect time to spend your\n"
-                  "day learning something new, from anywhere!",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff78746D)),
-                ),
-                const SizedBox(height: 16),
-                Image.asset("assets/images/p2.png"),
-                const SizedBox(height: 72),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffE3562A),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16)),
+                      const SizedBox(height: 8),
+                      Text(
+                        content[i].discription,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff78746D)),
                       ),
-                      onPressed: (() {
-                        Navigator.of(context).pushNamed("/onBoarding3");
-                      }),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Next",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      )),
-                ),
-              ],
-            ),
+                    ],
+                  );
+                })),
+        Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 72),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+                content.length, (index) => buildDot(index, context)),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class Intro3 extends StatefulWidget {
-  const Intro3({super.key});
-
-  @override
-  State<Intro3> createState() => _Intro3State();
-}
-
-class _Intro3State extends State<Intro3> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          TextButton(
-              onPressed: (() {}),
-              child: const Text("Skip",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff78746D))))
-        ],
-      ),
-      //bottomNavigationBar: Image.asset("assets/images/homebar.png"),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 122, bottom: 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Image.asset("assets/images/i3.png"),
-            const SizedBox(height: 16),
-            const Text(
-              "\n"
-              "Improve your skills",
-              style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xff3C3A36)),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              "Quarantine is the perfect time to spend your\n"
-              "day learning something new, from anywhere!",
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff78746D)),
-            ),
-            const SizedBox(height: 16),
-            Image.asset("assets/images/p2.png"),
-            const SizedBox(height: 77),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xffE3562A),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                  ),
-                  onPressed: (() {
-                    Navigator.of(context).pushNamed("/home");
-                  }),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Let's Start",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  )),
-            ),
-          ],
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xffE3562A),
+                  textStyle: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16))),
+              onPressed: () {
+                if (currentIndex == content.length - 1) {
+                  Navigator.of(context).pushNamed("/home");
+                }
+                _controller?.nextPage(
+                    duration: const Duration(milliseconds: 100),
+                    curve: Curves.bounceIn);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(currentIndex == content.length - 1
+                        ? "Let's Start"
+                        : "Next"),
+                  ],
+                ),
+              )),
+        ),
+        const SizedBox(height: 50),
+      ]),
     );
+  }
+
+  Container buildDot(int index, BuildContext context) {
+    return Container(
+        height: 6,
+        width: currentIndex == index ? 18 : 8,
+        margin: const EdgeInsets.only(right: 5),
+        decoration: currentIndex == index
+            ? BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color(0xff65AAEA))
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: const Color.fromARGB(255, 129, 98, 96)));
   }
 }
