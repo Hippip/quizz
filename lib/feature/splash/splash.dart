@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:quizz/assets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
@@ -51,7 +52,7 @@ class _SplashState extends State<Splash> {
         child: Column(
           children: [
             const SizedBox(height: 243),
-            Image.asset("assets/images/i0.png"),
+            Image.asset(Assets.assets_images_i0_png),
             const SizedBox(height: 16),
             const Text(
               "CodeFactory",

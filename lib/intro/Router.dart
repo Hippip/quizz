@@ -14,18 +14,6 @@ class router {
         {
           return MaterialPageRoute(builder: (_) => const Onboarding());
         }
-      case "/onBoarding1":
-        {
-          return MaterialPageRoute(builder: (_) => const Intro());
-        }
-      case "/onBoarding2":
-        {
-          return MaterialPageRoute(builder: (_) => const Intro2());
-        }
-      case "/onBoarding3":
-        {
-          return MaterialPageRoute(builder: (_) => const Intro3());
-        }
       case "/home":
         {
           return MaterialPageRoute(builder: (_) => const Home());
