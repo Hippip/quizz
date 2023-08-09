@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:quizz/assets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:quizz/feature/onboarding/onboarding_screen.dart';
 
 class Splash extends StatefulWidget {
+  static const String routeName = "/Splash";
   const Splash({super.key});
 
   @override
@@ -12,30 +11,30 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   startTimer();
+  // }
 
-  void startTimer() {
-    Timer(const Duration(seconds: 3), () {
-      _checkFirstTime();
-    });
-  }
+  // void startTimer() {
+  //   Timer(const Duration(seconds: 3), () {
+  //     _checkFirstTime();
+  //   });
+  // }
 
-  _checkFirstTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isFirstTime = prefs.getBool("isFirstTime");
+  // _checkFirstTime() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool? isFirstTime = prefs.getBool("isFirstTime");
 
-    if (isFirstTime == null) {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil("/onBoarding", (route) => false);
-      prefs.setBool("isFirstTime", true);
-    } else {
-      Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => false);
-    }
-  }
+  //   if (isFirstTime == null) {
+  //     Navigator.of(context)
+  //         .pushNamedAndRemoveUntil("/onBoarding", (route) => false);
+  //     prefs.setBool("isFirstTime", true);
+  //   } else {
+  //     Navigator.of(context).pushNamedAndRemoveUntil("/home", (route) => false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class _SplashState extends State<Splash> {
         ),
         onPressed: () {
           Navigator.of(context)
-              .pushNamedAndRemoveUntil("/onBoarding", (route) => false);
+              .pushNamedAndRemoveUntil(Onboarding.routeName, (route) => false);
         },
         child: Column(
           children: [

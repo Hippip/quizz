@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:quizz/feature/onboarding/content_modal.dart';
+import 'package:quizz/intro/home.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
+  static const String routeName = "/Onboarding";
 
   @override
   State<Onboarding> createState() => _OnboardingState();
@@ -34,7 +36,7 @@ class _OnboardingState extends State<Onboarding> {
           TextButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamedAndRemoveUntil("/home", (route) => false);
+                    .pushNamedAndRemoveUntil(Home.routeName, (route) => false);
               },
               child: const Text(
                 "Skip",
@@ -81,14 +83,13 @@ class _OnboardingState extends State<Onboarding> {
                     ],
                   );
                 })),
-        Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 72),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-                content.length, (index) => buildDot(index, context)),
-          ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+              content.length, (index) => buildDot(index, context)),
         ),
+        const SizedBox(height: 60),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: ElevatedButton(
@@ -102,7 +103,7 @@ class _OnboardingState extends State<Onboarding> {
                       borderRadius: BorderRadius.circular(16))),
               onPressed: () {
                 if (currentIndex == content.length - 1) {
-                  Navigator.of(context).pushNamed("/home");
+                  Navigator.of(context).pushNamed(Home.routeName);
                 }
                 _controller?.nextPage(
                     duration: const Duration(milliseconds: 100),
